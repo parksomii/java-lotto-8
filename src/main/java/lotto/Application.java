@@ -1,7 +1,15 @@
 package lotto;
 
+import lotto.exception.LottoException;
+import lotto.view.OutputView;
+
 public class Application {
     public static void main(String[] args) {
-        // TODO: 프로그램 구현
+        try {
+            new LottoApplication().run();
+        } catch (LottoException e) {
+            OutputView.printError(e.getMessage());
+            throw e;
+        }
     }
 }
