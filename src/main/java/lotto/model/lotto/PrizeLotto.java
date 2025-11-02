@@ -12,7 +12,9 @@ public class PrizeLotto {
 
     public PrizeLotto(List<Integer> winningNumbers, int bonus) {
         this.winning = new Lotto(winningNumbers);
-        if (bonus < LottoRules.MIN_NUMBER.getValue() || bonus > LottoRules.MAX_NUMBER.getValue()) {
+        int minNumber = LottoRules.getMinNumber();
+        int maxNumber = LottoRules.getMaxNumber();
+        if (bonus < minNumber || bonus > maxNumber) {
             throw new LottoException(ErrorMessage.BONUS_RANGE);
         }
 
@@ -24,10 +26,10 @@ public class PrizeLotto {
     }
 
     public boolean contains(int number) {
-        return winning.getNumbers().contains(number);
+        return winning.contains(number);
     }
 
     public boolean isBonus(Lotto lotto) {
-        return lotto.getNumbers().contains(bonus);
+        return lotto.contains(bonus);
     }
 }

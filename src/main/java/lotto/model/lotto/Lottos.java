@@ -28,7 +28,8 @@ public record Lottos(List<Lotto> tickets) {
     }
 
     private int countMatches(Lotto ticket, PrizeLotto prizeLotto) {
-        return (int) ticket.getNumbers().stream()
+        List<Integer> numbers = ticket.getNumbers();
+        return (int) numbers.stream()
                 .filter(prizeLotto::contains)
                 .count();
     }

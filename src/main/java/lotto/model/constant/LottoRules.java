@@ -15,4 +15,20 @@ public enum LottoRules {
     public int getValue() {
         return value;
     }
+
+    public static int getLottoPrice() {
+        return LOTTO_PRICE.getValue();
+    }
+
+    public static int getLottoNumbersCount() {
+        return LOTTO_NUMBERS_COUNT.getValue();
+    }
+
+    public static int getMinNumber() {
+        return MIN_NUMBER.getValue();
+    }
+
+    public static int getMaxNumber() {
+        return MAX_NUMBER.getValue();
+    }
 }

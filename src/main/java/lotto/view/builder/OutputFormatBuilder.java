@@ -14,7 +14,9 @@ public final class OutputFormatBuilder {
     public static String tickets(List<Lotto> tickets) {
         StringBuilder sb = new StringBuilder();
         for (Lotto lotto : tickets) {
-            sb.append(lotto.getNumbers().toString()).append(ViewMessages.LINE_SEPARATOR);
+            List<Integer> numbers = lotto.getNumbers();
+            String numbersString = numbers.toString();
+            sb.append(numbersString).append(ViewMessages.LINE_SEPARATOR);
         }
         return sb.toString();
     }

@@ -22,8 +22,10 @@ public class LottoResult {
 
     public long totalPrize() {
         long sum = 0L;
-        for (Map.Entry<LottoRank, Integer> e : rankCounts.entrySet()) {
-            sum += e.getKey().getPrize() * e.getValue();
+        for (Map.Entry<LottoRank, Integer> entry : rankCounts.entrySet()) {
+            LottoRank rank = entry.getKey();
+            int count = entry.getValue();
+            sum += rank.getPrize() * count;
         }
         return sum;
     }

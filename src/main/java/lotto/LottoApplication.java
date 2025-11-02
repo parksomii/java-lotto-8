@@ -82,12 +82,12 @@ public class LottoApplication {
 
     private Lottos purchase(int count) {
         List<Lotto> tickets = new ArrayList<>();
+        int minNumber = LottoRules.getMinNumber();
+        int maxNumber = LottoRules.getMaxNumber();
+        int numbersCount = LottoRules.getLottoNumbersCount();
         for (int i = 0; i < count; i++) {
             tickets.add(new Lotto(
-                    Randoms.pickUniqueNumbersInRange(
-                            LottoRules.MIN_NUMBER.getValue(),
-                            LottoRules.MAX_NUMBER.getValue(),
-                            LottoRules.LOTTO_NUMBERS_COUNT.getValue())));
+                    Randoms.pickUniqueNumbersInRange(minNumber, maxNumber, numbersCount)));
         }
         return new Lottos(tickets);
     }

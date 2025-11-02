@@ -18,7 +18,8 @@ public final class BudgetValidator {
     }
 
     private static void validateAmount(int amount) {
-        if (amount <= 0 || amount % LottoRules.LOTTO_PRICE.getValue() != 0) {
+        int lottoPrice = LottoRules.getLottoPrice();
+        if (amount <= 0 || amount % lottoPrice != 0) {
             throw new LottoException(ErrorMessage.BUDGET_UNIT);
         }
     }

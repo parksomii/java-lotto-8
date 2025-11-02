@@ -26,14 +26,16 @@ public class Lotto {
     }
 
     private void validateSize(List<Integer> numbers) {
-        if (numbers.size() != LottoRules.LOTTO_NUMBERS_COUNT.getValue()) {
+        int requiredCount = LottoRules.getLottoNumbersCount();
+        if (numbers.size() != requiredCount) {
             throw new LottoException(ErrorMessage.LOTTO_SIZE);
         }
     }
 
     private void validateDuplicates(List<Integer> numbers) {
         Set<Integer> uniq = new HashSet<>(numbers);
-        if (uniq.size() != LottoRules.LOTTO_NUMBERS_COUNT.getValue()) {
+        int requiredCount = LottoRules.getLottoNumbersCount();
+        if (uniq.size() != requiredCount) {
             throw new LottoException(ErrorMessage.LOTTO_DUPLICATE);
         }
     }
@@ -45,11 +47,21 @@ public class Lotto {
     }
 
     private boolean hasOutOfRange(List<Integer> numbers) {
+        int minNumber = LottoRules.getMinNumber();
+        int maxNumber = LottoRules.getMaxNumber();
         return numbers.stream()
-                .anyMatch(n -> n == null || n < LottoRules.MIN_NUMBER.getValue() || n > LottoRules.MAX_NUMBER.getValue());
+                .anyMatch(n -> isInvalidNumber(n, minNumber, maxNumber));
+    }
+
+    private boolean isInvalidNumber(Integer number, int minNumber, int maxNumber) {
+        return number == null || number < minNumber || number > maxNumber;
     }
 
     public List<Integer> getNumbers() {
         return numbers;
+    }
+
+    public boolean contains(int number) {
+        return numbers.contains(number);
     }
 }

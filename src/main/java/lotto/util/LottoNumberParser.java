@@ -36,7 +36,9 @@ public final class LottoNumberParser {
     }
 
     private static void validateBonusRange(int number) {
-        if (number < LottoRules.MIN_NUMBER.getValue() || number > LottoRules.MAX_NUMBER.getValue()) {
+        int minNumber = LottoRules.getMinNumber();
+        int maxNumber = LottoRules.getMaxNumber();
+        if (number < minNumber || number > maxNumber) {
             throw new LottoException(ErrorMessage.BONUS_RANGE);
         }
     }
