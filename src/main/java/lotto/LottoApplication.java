@@ -85,9 +85,9 @@ public class LottoApplication {
         for (int i = 0; i < count; i++) {
             tickets.add(new Lotto(
                     Randoms.pickUniqueNumbersInRange(
-                            LottoRules.MIN_NUMBER,
-                            LottoRules.MAX_NUMBER,
-                            LottoRules.LOTTO_NUMBERS_COUNT)));
+                            LottoRules.MIN_NUMBER.getValue(),
+                            LottoRules.MAX_NUMBER.getValue(),
+                            LottoRules.LOTTO_NUMBERS_COUNT.getValue())));
         }
         return new Lottos(tickets);
     }

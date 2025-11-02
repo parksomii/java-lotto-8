@@ -12,7 +12,7 @@ public class PrizeLotto {
 
     public PrizeLotto(List<Integer> winningNumbers, int bonus) {
         this.winning = new Lotto(winningNumbers);
-        if (bonus < LottoRules.MIN_NUMBER || bonus > LottoRules.MAX_NUMBER) {
+        if (bonus < LottoRules.MIN_NUMBER.getValue() || bonus > LottoRules.MAX_NUMBER.getValue()) {
             throw new LottoException(ErrorMessage.BONUS_RANGE);
         }
 

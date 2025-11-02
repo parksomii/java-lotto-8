@@ -1,10 +1,18 @@
 package lotto.model.constant;
 
-public final class LottoRules {
-    public static final int LOTTO_PRICE = 1000;
-    public static final int LOTTO_NUMBERS_COUNT = 6;
-    public static final int MIN_NUMBER = 1;
-    public static final int MAX_NUMBER = 45;
+public enum LottoRules {
+    LOTTO_PRICE(1000),
+    LOTTO_NUMBERS_COUNT(6),
+    MIN_NUMBER(1),
+    MAX_NUMBER(45);
 
-    private LottoRules() { }
+    private final int value;
+
+    LottoRules(int value) {
+        this.value = value;
+    }
+
+    public int getValue() {
+        return value;
+    }
 }
