@@ -2,11 +2,11 @@ package lotto.view;
 
 import lotto.model.lotto.Lotto;
 import lotto.model.result.LottoResult;
+import lotto.model.result.YieldCalculator;
 import lotto.view.builder.OutputFormatBuilder;
 import lotto.view.constant.ViewMessages;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.List;
 
 public final class OutputView {
@@ -26,9 +26,7 @@ public final class OutputView {
     }
 
     public static void printYield(long totalPrize, int budget) {
-        BigDecimal yield = BigDecimal.valueOf(totalPrize)
-                .multiply(BigDecimal.valueOf(100))
-                .divide(BigDecimal.valueOf(budget), 1, RoundingMode.HALF_UP);
+        BigDecimal yield = YieldCalculator.calculate(totalPrize, budget);
         System.out.println(ViewMessages.YIELD_PREFIX + yield + ViewMessages.YIELD_SUFFIX);
     }
 
