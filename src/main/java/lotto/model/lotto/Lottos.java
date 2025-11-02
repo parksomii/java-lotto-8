@@ -18,19 +18,12 @@ public record Lottos(List<Lotto> tickets) {
     }
 
     private void evaluateTicket(Lotto ticket, PrizeLotto prizeLotto, LottoResult result) {
-        int matchCount = countMatches(ticket, prizeLotto);
+        int matchCount = LottoMatcher.countMatches(ticket, prizeLotto);
         boolean bonusMatch = prizeLotto.isBonus(ticket);
         LottoRank rank = LottoRank.of(matchCount, bonusMatch);
 
         if (rank != LottoRank.NONE) {
             result.add(rank);
         }
-    }
-
-    private int countMatches(Lotto ticket, PrizeLotto prizeLotto) {
-        List<Integer> numbers = ticket.getNumbers();
-        return (int) numbers.stream()
-                .filter(prizeLotto::contains)
-                .count();
     }
 }
