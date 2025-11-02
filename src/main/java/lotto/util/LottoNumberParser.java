@@ -28,12 +28,16 @@ public final class LottoNumberParser {
     public static int parseBonus(String input) {
         try {
             int n = Integer.parseInt(input.trim());
-            if (n < LottoRules.MIN_NUMBER || n > LottoRules.MAX_NUMBER) {
-                throw new LottoException(ErrorMessage.BONUS_RANGE);
-            }
+            validateBonusRange(n);
             return n;
         } catch (NumberFormatException e) {
             throw new LottoException(ErrorMessage.BONUS_NOT_NUMBER);
+        }
+    }
+
+    private static void validateBonusRange(int number) {
+        if (number < LottoRules.MIN_NUMBER || number > LottoRules.MAX_NUMBER) {
+            throw new LottoException(ErrorMessage.BONUS_RANGE);
         }
     }
 }

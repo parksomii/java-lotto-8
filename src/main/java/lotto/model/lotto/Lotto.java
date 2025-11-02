@@ -20,19 +20,33 @@ public class Lotto {
     }
 
     private void validate(List<Integer> numbers) {
+        validateSize(numbers);
+        validateDuplicates(numbers);
+        validateRange(numbers);
+    }
+
+    private void validateSize(List<Integer> numbers) {
         if (numbers.size() != LottoRules.LOTTO_NUMBERS_COUNT) {
             throw new LottoException(ErrorMessage.LOTTO_SIZE);
         }
+    }
+
+    private void validateDuplicates(List<Integer> numbers) {
         Set<Integer> uniq = new HashSet<>(numbers);
         if (uniq.size() != LottoRules.LOTTO_NUMBERS_COUNT) {
             throw new LottoException(ErrorMessage.LOTTO_DUPLICATE);
         }
+    }
 
-        boolean isOutOfRange = numbers.stream()
-                .anyMatch(n -> n == null || n < LottoRules.MIN_NUMBER || n > LottoRules.MAX_NUMBER);
-        if (isOutOfRange) {
+    private void validateRange(List<Integer> numbers) {
+        if (hasOutOfRange(numbers)) {
             throw new LottoException(ErrorMessage.LOTTO_RANGE);
         }
+    }
+
+    private boolean hasOutOfRange(List<Integer> numbers) {
+        return numbers.stream()
+                .anyMatch(n -> n == null || n < LottoRules.MIN_NUMBER || n > LottoRules.MAX_NUMBER);
     }
 
     public List<Integer> getNumbers() {
