@@ -14,7 +14,7 @@ public final class OutputView {
     }
 
     public static void printTicketCount(int count) {
-        System.out.println(count + ViewMessages.PURCHASED_COUNT_SUFFIX);
+        System.out.println(count + ViewMessages.getPurchasedCountSuffix());
     }
 
     public static void printTickets(List<Lotto> tickets) {
@@ -27,7 +27,9 @@ public final class OutputView {
 
     public static void printYield(long totalPrize, int budget) {
         BigDecimal yield = YieldCalculator.calculate(totalPrize, budget);
-        System.out.println(ViewMessages.YIELD_PREFIX + yield + ViewMessages.YIELD_SUFFIX);
+        String yieldPrefix = ViewMessages.getYieldPrefix();
+        String yieldSuffix = ViewMessages.getYieldSuffix();
+        System.out.println(yieldPrefix + yield + yieldSuffix);
     }
 
     public static void printError(String message) {

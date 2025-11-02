@@ -13,18 +13,22 @@ public final class OutputFormatBuilder {
 
     public static String tickets(List<Lotto> tickets) {
         StringBuilder sb = new StringBuilder();
+        String lineSeparator = ViewMessages.getLineSeparator();
         for (Lotto lotto : tickets) {
             List<Integer> numbers = lotto.getNumbers();
             String numbersString = numbers.toString();
-            sb.append(numbersString).append(ViewMessages.LINE_SEPARATOR);
+            sb.append(numbersString).append(lineSeparator);
         }
         return sb.toString();
     }
 
     public static String statistics(LottoResult result) {
-        return String.join(ViewMessages.LINE_SEPARATOR,
-                ViewMessages.STATS_TITLE,
-                ViewMessages.STATS_DIVIDER,
+        String lineSeparator = ViewMessages.getLineSeparator();
+        String statsTitle = ViewMessages.getStatsTitle();
+        String statsDivider = ViewMessages.getStatsDivider();
+        return String.join(lineSeparator,
+                statsTitle,
+                statsDivider,
                 line(result, LottoRank.FIFTH),
                 line(result, LottoRank.FOURTH),
                 line(result, LottoRank.THIRD),
@@ -35,9 +39,11 @@ public final class OutputFormatBuilder {
     }
 
     private static String line(LottoResult result, LottoRank rank) {
+        String hyphen = ViewMessages.getHyphenWithSpaces();
+        String countUnit = ViewMessages.getCountUnit();
         return rank.getDescription()
-                + ViewMessages.HYPHEN_WITH_SPACES
+                + hyphen
                 + result.getCount(rank)
-                + ViewMessages.COUNT_UNIT;
+                + countUnit;
     }
 }

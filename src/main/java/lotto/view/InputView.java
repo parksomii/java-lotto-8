@@ -8,17 +8,17 @@ public final class InputView {
     }
 
     public static String readBudget() {
-        System.out.println(ViewMessages.PURCHASE_PROMPT);
+        System.out.println(ViewMessages.getPurchasePrompt());
         return Console.readLine();
     }
 
     public static String readWinningNumbers() {
-        System.out.println(ViewMessages.WINNING_PROMPT);
+        System.out.println(ViewMessages.getWinningPrompt());
         return Console.readLine();
     }
 
     public static String readBonusNumber() {
-        System.out.println(ViewMessages.BONUS_PROMPT);
+        System.out.println(ViewMessages.getBonusPrompt());
         return Console.readLine();
     }
 }
