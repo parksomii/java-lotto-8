@@ -7,6 +7,7 @@ public enum ErrorMessage {
     BUDGET_UNIT("구입 금액은 1,000원 단위의 양수여야 합니다."),
     BUDGET_NOT_NUMBER("구입 금액은 숫자여야 합니다."),
     WINNING_PARSE("로또 번호는 쉼표(,)로 구분된 숫자여야 합니다."),
+    WINNING_EMPTY("로또 번호는 빈 값일 수 없습니다."),
     BONUS_RANGE("보너스 번호는 1부터 45 사이여야 합니다."),
     BONUS_NOT_NUMBER("보너스 번호는 숫자여야 합니다."),
     BONUS_DUPLICATE("보너스 번호는 당첨 번호와 중복될 수 없습니다.");

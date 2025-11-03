@@ -26,13 +26,28 @@ public final class LottoNumberParser {
      */
     public static List<Integer> parseNumbers(String input) {
         try {
-            return Arrays.stream(input.trim().split(NUMBER_DELIMITER))
+            String[] parts = input.trim().split(NUMBER_DELIMITER);
+            validateEmptyParts(parts);
+            return Arrays.stream(parts)
                     .map(String::trim)
-                    .filter(s -> !s.isEmpty())
                     .map(Integer::parseInt)
                     .collect(Collectors.toList());
         } catch (NumberFormatException e) {
             throw new LottoException(ErrorMessage.WINNING_PARSE);
+        }
+    }
+
+    /**
+     * 빈 문자열 부분이 있는지 검증
+     *
+     * @param parts 분할된 문자열 배열
+     * @throws LottoException 빈 부분이 있을 경우
+     */
+    private static void validateEmptyParts(String[] parts) {
+        for (String part : parts) {
+            if (part.trim().isEmpty()) {
+                throw new LottoException(ErrorMessage.WINNING_EMPTY);
+            }
         }
     }
 
