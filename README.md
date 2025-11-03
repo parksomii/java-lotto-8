@@ -44,32 +44,35 @@
 
 ```
 src/main/java/lotto/
-├── Application.java               # 메인
-├── LottoApplication.java          # 게임 flow
+├── Application.java               # 메인 진입점, 예외 처리
+├── LottoApplication.java          # 게임 플로우 제어(예산 입력, 로또 구매, 당첨 번호 입력, 결과 평가 및 출력)
 ├── model/
 │   ├── lotto/
-│   │   ├── Lotto.java             # 단일 로또(번호 검증 포함)
-│   │   ├── Lottos.java            # N개 로또 컬렉션, 평가
-│   │   ├── PrizeLotto.java        # 당첨번호+보너스 저장/검증
-│   │   └── Budget.java            # 금액/티켓 수 관리
-│   └── lottoresult/
-│   │   ├── LottoRank.java         # 등수/금액 분류(enum)
-│   │   └── LottoResult.java       # 등수별 개수/총 합산
+│   │   ├── Lotto.java             # 단일 로또 번호(번호 검증: 개수/중복/범위, 정렬, 포함 여부 확인)
+│   │   ├── Lottos.java            # 여러 로또 티켓 관리(Record), 당첨 결과 평가
+│   │   ├── PrizeLotto.java        # 당첨번호+보너스 저장/검증(범위, 중복 검증), 당첨번호 포함여부 확인, 보너스번호 포함여부 확인
+│   │   ├── Budget.java            # 예산 관리(Record, 티켓 수 계산, 예산 검증)
+│   │   └── LottoMatcher.java      # 로또 티켓과 당첨 로또 간 일치 번호 개수 계산
+│   ├── result/
+│   │   ├── LottoRank.java         # 당첨 등급(enum: FIRST~FIFTH, NONE, 등급 결정, 당첨금/설명 제공)
+│   │   ├── LottoResult.java       # 당첨 결과 집계(등급별 개수 관리, 총 당첨금 계산)
+│   │   └── YieldCalculator.java   # 수익률 계산 유틸리티(소수점 첫째 자리 반올림)
 │   └── constant/
-│       └── LottoRules.java        # 범위, 장수 등 상수
+│       └── LottoRules.java        # 로또 규칙 상수(enum: 가격, 번호 개수, 범위)
 ├── util/
-│   ├── BudgetValidator.java       # 금액 입력 검증/파싱
-│   └── LottoNumberParser.java     # 번호 입력 검증/파싱
+│   ├── BudgetValidator.java       # 예산 입력 파싱 및 검증(숫자 변환, 1000원 단위 검증)
+│   ├── LottoNumberParser.java     # 로또 번호 파싱(쉼표 구분 파싱, 보너스 번호 파싱/범위 검증)
+│   └── InputRetryHandler.java     # 입력 재시도 처리(예외 발생 시 에러 출력 후 재시도)
 ├── exception/
-│   ├── ErrorMessage.java          # 에러 메시지(enum)
-│   └── LottoException.java        # 커스텀 예외
+│   ├── ErrorMessage.java          # 에러 메시지(enum, [ERROR] prefix 포함)
+│   └── LottoException.java        # 커스텀 예외(IllegalArgumentException 상속)
 ├── view/
-│   ├── InputView.java             # 입력 뷰
-│   ├── OutputView.java            # 출력 뷰
+│   ├── InputView.java             # 입력 뷰(예산, 당첨 번호, 보너스 번호 입력)
+│   ├── OutputView.java            # 출력 뷰(티켓 개수, 티켓 목록, 통계, 수익률, 에러 출력)
 │   ├── builder/
-│   │   └── OutputFormatBuilder.java # 출력 포맷 빌더
+│   │   └── OutputFormatBuilder.java # 출력 포맷 빌더(티켓 목록, 통계 포맷팅)
 │   └── constant/
-│       └── ViewMessages.java      # 출력 문자열 상수
+│       └── ViewMessages.java      # 출력 메시지 상수(enum, 모든 출력 문자열)
 ```
 
 ## **5. 실행 예시**
@@ -115,6 +118,7 @@ src/main/java/lotto/
 | 금액이 숫자 아님    | LottoException | [ERROR] 구입 금액은 숫자여야 합니다.            |
 | 당첨과 보너스 중복   | LottoException | [ERROR] 보너스 번호는 당첨 번호와 중복될 수 없습니다.  |
 | 보너스 1~45 아님  | LottoException | [ERROR] 보너스 번호는 1부터 45 사이여야 합니다.    |
+| 보너스가 숫자 아님    | LottoException | [ERROR] 보너스 번호는 숫자여야 합니다.            |
 | 번호/보너스 파싱 실패 | LottoException | [ERROR] 로또 번호는 쉼표(,)로 구분된 숫자여야 합니다. |
 
 ## **7. 테스트 구조**
@@ -126,13 +130,13 @@ src/test/java/lotto/
 ├── model/
 │   ├── lotto/
 │   │   ├── LottoTest.java           # 단일 로또 검증
-│   │   ├── LottosTest.java          # N개로또/평가
-│   │   ├── BudgetTest.java          # 금액 티켓수/예외
-│   │   └── PrizeLottoTest.java      # 당첨/보너스 예외포함
-│   └── lottoresult/
-│       ├── LottoRankTest.java       # 등수/금액 구분
-│       └── LottoResultTest.java     # 등수별 집계
+│   │   ├── LottosTest.java          # 여러 로또 티켓 평가
+│   │   ├── BudgetTest.java          # 예산 검증 및 티켓 수 계산
+│   │   └── PrizeLottoTest.java      # 당첨 번호 및 보너스 검증
+│   └── result/
+│       ├── LottoRankTest.java       # 등급 결정 및 당첨금/설명
+│       └── LottoResultTest.java     # 등급별 집계 및 총 당첨금
 ├── util/
-│   ├── BudgetValidatorTest.java     # 금액 파서
-│   └── LottoNumberParserTest.java   # 번호/보너스 파서
+│   ├── BudgetValidatorTest.java     # 예산 파싱 및 검증
+│   └── LottoNumberParserTest.java   # 로또 번호 및 보너스 파싱
 ```
