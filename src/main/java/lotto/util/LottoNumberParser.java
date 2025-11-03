@@ -26,8 +26,9 @@ public final class LottoNumberParser {
      */
     public static List<Integer> parseNumbers(String input) {
         try {
-            return Arrays.stream(input.split(NUMBER_DELIMITER))
+            return Arrays.stream(input.trim().split(NUMBER_DELIMITER))
                     .map(String::trim)
+                    .filter(s -> !s.isEmpty())
                     .map(Integer::parseInt)
                     .collect(Collectors.toList());
         } catch (NumberFormatException e) {
