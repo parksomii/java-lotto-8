@@ -2,6 +2,9 @@ package lotto.model.result;
 
 import java.util.Arrays;
 
+/**
+ * 로또 당첨 등급을 나타내는 Enum
+ */
 public enum LottoRank {
     FIRST(6, false, 2_000_000_000L, "6개 일치 (2,000,000,000원)"),
     SECOND(5, true, 30_000_000L, "5개 일치, 보너스 볼 일치 (30,000,000원)"),
@@ -15,6 +18,14 @@ public enum LottoRank {
     private final long prize;
     private final String description;
 
+    /**
+     * 당첨 등급 생성자
+     *
+     * @param matchCount 일치하는 번호 개수
+     * @param bonusMatchRequired 보너스 번호 일치 필요 여부
+     * @param prize 당첨금
+     * @param description 설명
+     */
     LottoRank(int matchCount, boolean bonusMatchRequired, long prize, String description) {
         this.matchCount = matchCount;
         this.bonusMatchRequired = bonusMatchRequired;
@@ -30,6 +41,13 @@ public enum LottoRank {
         return description;
     }
 
+    /**
+     * 일치하는 번호 개수와 보너스 번호 일치 여부로 당첨 등급을 결정
+     *
+     * @param matchCount 일치하는 번호 개수
+     * @param bonusMatch 보너스 번호 일치 여부
+     * @return 해당하는 당첨 등급
+     */
     public static LottoRank of(int matchCount, boolean bonusMatch) {
         if (matchCount == 5 && bonusMatch) {
             return SECOND;

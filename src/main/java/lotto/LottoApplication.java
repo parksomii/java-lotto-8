@@ -18,6 +18,10 @@ import java.util.List;
 
 public class LottoApplication {
 
+    /**
+     * 로또 애플리케이션의 메인 실행 로직
+     * 예산 입력, 로또 구매, 당첨 번호 입력, 결과 평가 및 출력을 순차적으로 수행
+     */
     public void run() {
         int budgetAmount = readBudget();
         Budget budget = new Budget(budgetAmount);
@@ -33,6 +37,12 @@ public class LottoApplication {
         OutputView.printYield(result.totalPrize(), budget.amount());
     }
 
+    /**
+     * 예산을 입력받는 메서드
+     * 잘못된 입력 시 재시도
+     *
+     * @return 입력된 예산 금액
+     */
     private int readBudget() {
         return InputRetryHandler.retry(() -> {
             String input = InputView.readBudget();
@@ -40,6 +50,12 @@ public class LottoApplication {
         });
     }
 
+    /**
+     * 당첨 로또 번호와 보너스 번호를 입력받는 메서드
+     * 잘못된 입력 시 재시도
+     *
+     * @return 입력된 당첨 로또 정보
+     */
     private PrizeLotto readPrizeLotto() {
         List<Integer> winningNumbers = readWinningNumbers();
         return InputRetryHandler.retry(() -> {
@@ -48,6 +64,12 @@ public class LottoApplication {
         });
     }
 
+    /**
+     * 당첨 번호를 입력받는 메서드
+     * 잘못된 입력 시 재시도
+     *
+     * @return 입력된 당첨 번호 목록
+     */
     private List<Integer> readWinningNumbers() {
         return InputRetryHandler.retry(() -> {
             String input = InputView.readWinningNumbers();
@@ -57,6 +79,12 @@ public class LottoApplication {
         });
     }
 
+    /**
+     * 보너스 번호를 입력받는 메서드
+     * 잘못된 입력 시 재시도
+     *
+     * @return 입력된 보너스 번호
+     */
     private int readBonusNumber() {
         return InputRetryHandler.retry(() -> {
             String input = InputView.readBonusNumber();
@@ -64,6 +92,12 @@ public class LottoApplication {
         });
     }
 
+    /**
+     * 지정된 개수만큼 로또를 구매하는 메서드
+     *
+     * @param count 구매할 로또 개수
+     * @return 구매한 로또 목록
+     */
     private Lottos purchase(int count) {
         List<Lotto> tickets = new ArrayList<>();
         int minNumber = LottoRules.getMinNumber();
